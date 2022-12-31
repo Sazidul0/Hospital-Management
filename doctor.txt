@@ -1,0 +1,6 @@
+Dr.Monayem Sat-Mon Anesthesiology
+Dr.Forhad Thu-Fri Dermatology
+Dr.Momen Fri-Sun Neurology
+Dr.Boshir Sat-Fri Ophthalmology
+Dr.Fayez Sun-Thu Pathology
+Dr.Nasrin Mon-Fri Surgery

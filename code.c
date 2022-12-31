@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <windows.h>
 #define MAX_LIMIT 20
 
@@ -13,16 +14,16 @@ struct Patient
 char home_menu()
 {
     char userChoice;
-    printf("********************************************\n");
-    printf("*                                          *\n");
-    printf("*           Application Login              * \n");
-    printf("*                                          *\n");
-    printf("********************************************\n");
+    printf("\t\t********************************************\n");
+    printf("\t\t*                                          *\n");
+    printf("\t\t*           Application Login              * \n");
+    printf("\t\t*                                          *\n");
+    printf("\t\t********************************************\n");
 
-    printf("1. Admin Login \n");
-    printf("2. User Login \n");
-    printf("3. Exit \n");
-    printf("\n");
+    printf("\t\t1. Admin Login \n");
+    printf("\t\t2. User Login \n");
+    printf("\t\t3. Exit \n");
+    printf("\t\t\n");
     printf("Enter Your Choice: ");
     scanf("%c", &userChoice);
 
@@ -44,6 +45,7 @@ char home_menu()
 void admin_panel();
 void user_panel();
 int booked_seats();
+void doctor_list();
 
 // All Patient List
 void all_patient_list()
@@ -54,45 +56,45 @@ void all_patient_list()
     char dischargedDate[MAX_LIMIT];
     char doctorName[MAX_LIMIT];
     system("CLS");
-    printf("Admited Patient List: \n");
-    printf("------------------------------------------------------------------\n");
-    printf("|      Patient Name      |     Age     |        Date (Admited)   |\n");
-    printf("------------------------------------------------------------------\n");
+    printf("\tAdmitted Patient List: \n");
+    printf("\t------------------------------------------------------------------\n");
+    printf("\t|      Patient Name      |     Age     |        Date (Admited)   |\n");
+    printf("\t------------------------------------------------------------------\n");
     FILE *admitedPatientList;
     admitedPatientList = fopen("admitedPatient.txt", "r");
     for (; !feof(admitedPatientList);)
     {
         fscanf(admitedPatientList, "%s %d %s", &patientName, &age, &date);
-        printf("|%20s    | %7d     | %20s    |\n", patientName, age, date);
+        printf("\t|%20s    | %7d     | %20s    |\n", patientName, age, date);
     }
     fclose(admitedPatientList);
-    printf("------------------------------------------------------------------\n");
-    printf("\n Discharged Patient List: \n");
-    printf("--------------------------------------------------------------------------------------------\n");
-    printf("|      Patient Name      |     Age     |        Date (Admited)   |      Date (Discharge)   |\n");
-    printf("--------------------------------------------------------------------------------------------\n");
+    printf("\t------------------------------------------------------------------\n");
+    printf("\n\t Discharged Patient List: \n");
+    printf("\t--------------------------------------------------------------------------------------------\n");
+    printf("\t|      Patient Name      |     Age     |        Date (Admited)   |      Date (Discharge)   |\n");
+    printf("\t--------------------------------------------------------------------------------------------\n");
     FILE *dischargedPatientList;
     dischargedPatientList = fopen("dischargedPatient.txt", "r");
     for (; !feof(dischargedPatientList);)
     {
         fscanf(dischargedPatientList, "%s %d %s %s", &patientName, &age, &date, &dischargedDate);
-        printf("|%20s    | %7d     | %20s    | %20s    |\n", patientName, age, date, dischargedDate);
+        printf("\t|%20s    | %7d     | %20s    | %20s    |\n", patientName, age, date, dischargedDate);
     }
     fclose(dischargedPatientList);
-    printf("--------------------------------------------------------------------------------------------\n");
-    printf("\n NonAdmited Patient List: \n");
-    printf("--------------------------------------------------------------------------------------------\n");
-    printf("|      Patient Name      |     Age     |          Date           |          Doctor         |\n");
-    printf("--------------------------------------------------------------------------------------------\n");
+    printf("\t--------------------------------------------------------------------------------------------\n");
+    printf("\n\t NonAdmited Patient List: \n");
+    printf("\t--------------------------------------------------------------------------------------------\n");
+    printf("\t|      Patient Name      |     Age     |          Date           |          Doctor         |\n");
+    printf("\t--------------------------------------------------------------------------------------------\n");
     FILE *nonAdmitedPatientList;
     nonAdmitedPatientList = fopen("nonAdmitedPatient.txt", "r");
     for (; !feof(nonAdmitedPatientList);)
     {
         fscanf(nonAdmitedPatientList, "%s %d %s %s", &patientName, &age, &date, &doctorName);
-        printf("|%20s    | %7d     | %20s    | %20s    |\n", patientName, age, date, doctorName);
+        printf("\t|%20s    | %7d     | %20s    | %20s    |\n", patientName, age, date, doctorName);
     }
     fclose(nonAdmitedPatientList);
-    printf("--------------------------------------------------------------------------------------------\n");
+    printf("\t--------------------------------------------------------------------------------------------\n");
 }
 
 // User Login
@@ -146,9 +148,6 @@ int user_login(char givenUser[MAX_LIMIT], char givenPass[MAX_LIMIT])
 int admin_login(char givenUser[MAX_LIMIT], char givenPass[MAX_LIMIT])
 {
     int match = 0;
-    // char givenUser[20], givenPass[20];
-    // scanf("%s %s", &givenUser, &givenPass);
-    // printf("User input - %s %s\n", givenUser, givenPass);
     int i;
     char userName[MAX_LIMIT];
     char password[MAX_LIMIT];
@@ -163,21 +162,17 @@ int admin_login(char givenUser[MAX_LIMIT], char givenPass[MAX_LIMIT])
     {
         fscanf(users, "%s", userName);
         fscanf(pass, "%s", password);
-        // printf("File input - %s %s\n", userName, password);
         machingUser = strcmp(userName, givenUser);
         machingPass = strcmp(password, givenPass);
         if (machingPass == 0 && machingUser == 0)
         {
             match = 1;
-            // printf("Matched output - %s %s\n", adminUserName, adminPassword);
             break;
         }
         else
         {
             match = 0;
         }
-        // if (feof(users))
-        //     break;
     }
     fclose(users);
     fclose(pass);
@@ -190,58 +185,70 @@ int admin_login(char givenUser[MAX_LIMIT], char givenPass[MAX_LIMIT])
     }
     else
     {
-        printf("Invalid credentials! for admin panel.\n \n");
+        printf("Invalid credentials for admin panel.\n \n");
         return 0;
     }
 }
 
 void user_panel()
 {
-    printf("-------------------------------------------\n");
-    printf("|                                          |\n");
-    printf("|              Welcome to the              | \n");
-    printf("|            Imperial Hospital             | \n");
-    printf("|            User(Saff) Panel              | \n");
-    printf("|                                          |\n");
-    printf("-------------------------------------------\n");
+    printf("\t\t-------------------------------------------\n");
+    printf("\t\t|                                          |\n");
+    printf("\t\t|              Welcome to the              | \n");
+    printf("\t\t|            Imperial Hospital             | \n");
+    printf("\t\t|            User(Saff) Panel              | \n");
+    printf("\t\t|                                          |\n");
+    printf("\t\t-------------------------------------------\n");
     char userChoise;
-    printf("1. All Patient List\n");
-    printf("2. Available seats \n");
-    printf("3. Exit \n");
-    printf("\n");
+    printf("\t\t1. All Patient List\n");
+    printf("\t\t2. Available seats \n");
+    printf("\t\t3. Doctor List \n");
+    printf("\t\t4. Exit \n");
+    printf("\t\t\n");
     printf("Enter Your Choice: ");
     scanf("%c", &userChoise);
     scanf("%c", &userChoise);
-    while (userChoise != '1' && userChoise != '2' && userChoise != '3')
+    while (userChoise != '1' && userChoise != '2' && userChoise != '3' && userChoise != '4')
     {
         printf("\n");
         printf("Invalid Argument \n \n");
         printf("Enter 1 for All Patient List \n");
         printf("Enter 2 for Available seats\n");
-        printf("Enter 3 for Exit \n");
+        printf("Enter 3 for Doctor List\n");
+        printf("Enter 4 for Exit \n");
         printf("\n");
-        printf("Enter Your Choise: ");
+        printf("Enter Your Choice: ");
         scanf("%c", &userChoise);
     }
+    // All patient list
     if (userChoise == '1')
     {
         system("CLS");
         all_patient_list();
         user_panel();
     }
+    // Available Seats
     else if (userChoise == '2')
     {
         system("CLS");
         int seats = booked_seats();
-        printf("%30s\n", "Available Seats: ");
-        printf("-------------------------------------------\n");
-        printf("|    Total Seats    |   Available Seats   |\n");
-        printf("-------------------------------------------\n");
-        printf("|%10d          |%11d         |\n", 100, 100 - seats);
-        printf("-------------------------------------------\n\n");
+        printf("%35s\n", "Available Seats: ");
+        printf("\t-------------------------------------------\n");
+        printf("\t|    Total Seats    |   Available Seats   |\n");
+        printf("\t-------------------------------------------\n");
+        printf("\t|%10d          |%11d         |\n", 100, 100 - seats);
+        printf("\t-------------------------------------------\n\n");
         user_panel();
     }
+    // Doctor List
     else if (userChoise == '3')
+    {
+        system("CLS");
+        doctor_list();
+        user_panel();
+    }
+    // Exit
+    else if (userChoise == '4')
     {
     }
 }
@@ -249,21 +256,20 @@ void user_panel()
 // Admin Panel
 void admin_panel()
 {
-    // system("CLS");
-    printf("-------------------------------------------\n");
-    printf("|                                          |\n");
-    printf("|              Welcome to the              | \n");
-    printf("|            Imperial Hospital             | \n");
-    printf("|               Admin Panel                | \n");
-    printf("|                                          |\n");
-    printf("-------------------------------------------\n");
+    printf("\t\t-------------------------------------------\n");
+    printf("\t\t|                                          |\n");
+    printf("\t\t|              Welcome to the              | \n");
+    printf("\t\t|            Imperial Hospital             | \n");
+    printf("\t\t|               Admin Panel                | \n");
+    printf("\t\t|                                          |\n");
+    printf("\t\t-------------------------------------------\n");
     int adminChoise;
-    printf("1. Admit a Patient\n");
-    printf("2. Discharge a Patient\n");
-    printf("3. Add a Patient (Non Admited!)\n");
-    printf("4. All Patient List\n");
-    printf("5. Available seats \n");
-    printf("6. Exit \n");
+    printf("\t\t1. Admit a Patient\n");
+    printf("\t\t2. Discharge a Patient\n");
+    printf("\t\t3. Add a Patient (Non Admitted!)\n");
+    printf("\t\t4. All Patient List\n");
+    printf("\t\t5. Available seats \n");
+    printf("\t\t6. Exit \n");
     printf("\n");
     printf("Enter Your Choice: ");
     scanf("%d", &adminChoise);
@@ -273,7 +279,7 @@ void admin_panel()
         printf("Invalid Argument \n \n");
         printf("Enter 1 for Admit a Patient \n");
         printf("Enter 2 for Discharge a Patient\n");
-        printf("Enter 3 Add a Patient (Non Admited!) \n");
+        printf("Enter 3 Add a Patient (Non Admitted!) \n");
         printf("Enter 4 All Patient List \n");
         printf("Enter 5 for Available seats \n");
         printf("Enter 6 for Exit \n");
@@ -281,6 +287,7 @@ void admin_panel()
         printf("Enter Your Choise: ");
         scanf("%d", &adminChoise);
     }
+    // Admit a Patient
     if (adminChoise == 1)
     {
         char patientName[MAX_LIMIT];
@@ -296,17 +303,16 @@ void admin_panel()
         newAdmit = fopen("admitedPatient.txt", "a");
         fprintf(newAdmit, "\n%s %d %s", patientName, age, date);
         fclose(newAdmit);
-        printf("\n********************************\n");
-        printf("*  Patient added successfully  *\n");
-        printf("********************************\n");
+        printf("\n\t\t********************************\n");
+        printf("\t\t*  Patient added successfully  *\n");
+        printf("\t\t********************************\n");
         admin_panel();
     }
     else if (adminChoise == 2)
     {
-        // discharge
+        // discharge a patient
         int n = booked_seats();
-        // printf("Seats - %d", n);
-        struct Patient restPatient[n];
+        struct Patient currentPatient[n];
         char patientName[MAX_LIMIT];
         char dischargeDate[MAX_LIMIT];
         printf("Enter Patient Name: ");
@@ -317,12 +323,13 @@ void admin_panel()
         admitedPatientList = fopen("admitedPatient.txt", "r");
         for (int pr = 0; !feof(admitedPatientList); pr++)
         {
-            fscanf(admitedPatientList, "%s %d %s", &restPatient[pr].patientName, &restPatient[pr].age, &restPatient[pr].date);
-            if (strcmp(restPatient[pr].patientName, patientName) == 0)
+            fscanf(admitedPatientList, "%s %d %s", &currentPatient[pr].patientName, &currentPatient[pr].age, &currentPatient[pr].date);
+            if (strcmp(currentPatient[pr].patientName, patientName) == 0)
             {
+                // Discharge info adding
                 FILE *dischargedPatient;
                 dischargedPatient = fopen("dischargedPatient.txt", "a");
-                fprintf(dischargedPatient, "\n%s %d %s %s", restPatient[pr].patientName, restPatient[pr].age, restPatient[pr].date, dischargeDate);
+                fprintf(dischargedPatient, "\n%s %d %s %s", currentPatient[pr].patientName, currentPatient[pr].age, currentPatient[pr].date, dischargeDate);
                 fclose(dischargedPatient);
             }
         }
@@ -331,21 +338,21 @@ void admin_panel()
         patientList = fopen("admitedPatient.txt", "w");
         for (int pr = 0; pr < n - 1; pr++)
         {
-            //  fscanf(patientList, "%s %d %s", &restPatient[pr].patientName, &restPatient[pr].age, &restPatient[pr].date);
-            if (strcmp(restPatient[pr].patientName, patientName) != 0)
+            if (strcmp(currentPatient[pr].patientName, patientName) != 0)
             {
-                fprintf(patientList, "\n%s %d %s", restPatient[pr].patientName, restPatient[pr].age, restPatient[pr].date);
-                // printf("\n%s %d %s", restPatient[pr].patientName, restPatient[pr].age, restPatient[pr].date);
+                fprintf(patientList, "\n%s %d %s", currentPatient[pr].patientName, currentPatient[pr].age, currentPatient[pr].date);
             }
         }
         fclose(patientList);
-        printf("\n*************************************\n");
-        printf("*  Patient discharged successfully  *\n");
-        printf("*************************************\n");
+        printf("\n\t\t*************************************\n");
+        printf("\t\t*  Patient discharged successfully  *\n");
+        printf("\t\t*************************************\n");
         admin_panel();
     }
+    // Add a Patient(Non Admitted)
     else if (adminChoise == 3)
     {
+
         char patientName[MAX_LIMIT];
         int age;
         char date[MAX_LIMIT];
@@ -362,73 +369,31 @@ void admin_panel()
         newAdmit = fopen("nonAdmitedPatient.txt", "a");
         fprintf(newAdmit, "\n%s %d %s %s", patientName, age, date, doctorName);
         fclose(newAdmit);
-        printf("\n********************************\n");
-        printf("*  Patient added successfully  *\n");
-        printf("********************************\n");
+        printf("\n\t\t********************************\n");
+        printf("\t\t*  Patient added successfully  *\n");
+        printf("\t\t********************************\n");
         admin_panel();
     }
+    // All patient list
     else if (adminChoise == 4)
     {
         all_patient_list();
-        // char patientName[MAX_LIMIT];
-        // int age;
-        // char date[MAX_LIMIT];
-        // char dischargedDate[MAX_LIMIT];
-        // char doctorName[MAX_LIMIT];
-        // system("CLS");
-        // printf("Admited Patient List: \n");
-        // printf("------------------------------------------------------------------\n");
-        // printf("|      Patient Name      |     Age     |        Date (Admited)   |\n");
-        // printf("------------------------------------------------------------------\n");
-        // FILE *admitedPatientList;
-        // admitedPatientList = fopen("admitedPatient.txt", "r");
-        // for (; !feof(admitedPatientList);)
-        // {
-        //     fscanf(admitedPatientList, "%s %d %s", &patientName, &age, &date);
-        //     printf("|%20s    | %7d     | %20s    |\n", patientName, age, date);
-        // }
-        // fclose(admitedPatientList);
-        // printf("------------------------------------------------------------------\n");
-        // printf("\n Discharged Patient List: \n");
-        // printf("--------------------------------------------------------------------------------------------\n");
-        // printf("|      Patient Name      |     Age     |        Date (Admited)   |      Date (Discharge)   |\n");
-        // printf("--------------------------------------------------------------------------------------------\n");
-        // FILE *dischargedPatientList;
-        // dischargedPatientList = fopen("dischargedPatient.txt", "r");
-        // for (; !feof(dischargedPatientList);)
-        // {
-        //     fscanf(dischargedPatientList, "%s %d %s %s", &patientName, &age, &date, &dischargedDate);
-        //     printf("|%20s    | %7d     | %20s    | %20s    |\n", patientName, age, date, dischargedDate);
-        // }
-        // fclose(dischargedPatientList);
-        // printf("--------------------------------------------------------------------------------------------\n");
-        // printf("\n NonAdmited Patient List: \n");
-        // printf("--------------------------------------------------------------------------------------------\n");
-        // printf("|      Patient Name      |     Age     |          Date           |          Doctor         |\n");
-        // printf("--------------------------------------------------------------------------------------------\n");
-        // FILE *nonAdmitedPatientList;
-        // nonAdmitedPatientList = fopen("nonAdmitedPatient.txt", "r");
-        // for (; !feof(nonAdmitedPatientList);)
-        // {
-        //     fscanf(nonAdmitedPatientList, "%s %d %s %s", &patientName, &age, &date, &doctorName);
-        //     printf("|%20s    | %7d     | %20s    | %20s    |\n", patientName, age, date, doctorName);
-        // }
-        // fclose(nonAdmitedPatientList);
-        // printf("--------------------------------------------------------------------------------------------\n");
         admin_panel();
     }
+    // Available Seats
     else if (adminChoise == 5)
     {
         system("CLS");
         int seats = booked_seats();
         printf("%30s\n", "Available Seats: ");
-        printf("-------------------------------------------\n");
-        printf("|    Total Seats    |   Available Seats   |\n");
-        printf("-------------------------------------------\n");
-        printf("|%10d          |%11d         |\n", 100, 100 - seats);
-        printf("-------------------------------------------\n\n");
+        printf("\t-------------------------------------------\n");
+        printf("\t|    Total Seats    |   Available Seats   |\n");
+        printf("\t-------------------------------------------\n");
+        printf("\t|%10d          |%11d         |\n", 100, 100 - seats);
+        printf("\t-------------------------------------------\n\n");
         admin_panel();
     }
+    // Exit from the program
     else if (adminChoise == 6)
     {
     }
@@ -452,18 +417,43 @@ int booked_seats()
     return seats;
 }
 
+// Doctor List
+void doctor_list()
+{
+    char doctorsName[MAX_LIMIT];
+    char days[MAX_LIMIT];
+    char specialization[MAX_LIMIT];
+
+    FILE *doctorList;
+    doctorList = fopen("doctor.txt", "r");
+    printf("\n\n\t\t\t Imperial Hospital Doctor List\n\n");
+    printf("\t-------------------------------------------------------------------\n");
+    printf("\t|     Doctor Name    |    Days(In week)   |     Specialization    |\n");
+    printf("\t-------------------------------------------------------------------\n");
+    for (; !feof(doctorList);)
+    {
+        fscanf(doctorList, "%s %s %s", &doctorsName, &days, &specialization);
+
+        printf("\t| %15s     | %12s      | %17s    |\n", doctorsName, days, specialization);
+    }
+    printf("\t-------------------------------------------------------------------\n");
+    fclose(doctorList);
+}
+
+// Main Funtion
 int main()
 {
     char userChoice;
 
-    printf("-------------------------------------------\n");
-    printf("|                                          |\n");
-    printf("|              Welcome to the              | \n");
-    printf("|            Imperial Hospital             | \n");
-    printf("|                                          |\n");
-    printf("-------------------------------------------\n");
+    printf("\t\t-------------------------------------------\n");
+    printf("\t\t|                                          |\n");
+    printf("\t\t|              Welcome to the              | \n");
+    printf("\t\t|            Imperial Hospital             | \n");
+    printf("\t\t|                                          |\n");
+    printf("\t\t-------------------------------------------\n");
 
     userChoice = home_menu();
+    // Admin login
     if (userChoice == '1')
     {
         int loggedinInfo = 0;
@@ -480,10 +470,10 @@ int main()
             scanf("%s", &adminUserName);
             printf("Enter Password: ");
             scanf("%s", &adminPassword);
-            // printf("%s %s", adminUserName, adminPassword);
             loggedinInfo = admin_login(adminUserName, adminPassword);
         }
     }
+    // User login
     else if (userChoice == '2')
     {
         int loggedinInfo = 0;
@@ -504,6 +494,7 @@ int main()
             loggedinInfo = user_login(staffUserName, staffPass);
         }
     }
+    // Exit
     else if (userChoice == '3')
     {
         printf("Exitting from the program\n");
